@@ -18,6 +18,8 @@
         "name": "next"
       }
     ],
+    
+    "types": ["node"],
     "paths": {
       "@/*": ["./*"]
     }
@@ -30,5 +32,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next"]
 }

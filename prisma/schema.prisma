@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String       @id @default(uuid())
+  email       String       @unique
+  password    String
+  name        String?
+  ecoPoints   Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  crafts      Craft[]
+  posts       Post[]
+  savedCrafts SavedCraft[]
+  recycleLogs RecycleLog[]
+}
+
+model Item {
+  id          String       @id @default(uuid())
+  name        String
+  category    String
+  description String?
+  createdAt   DateTime     @default(now())
+  recycleLogs RecycleLog[]
+}
+
+model Material {
+  id             String          @id @default(uuid())
+  name           String          @unique
+  category       String
+  createdAt      DateTime        @default(now())
+  craftMaterials CraftMaterial[]
+}
+
+model Craft {
+  id             String          @id @default(uuid())
+  title          String
+  description    String
+  difficulty     String          @default("beginner")
+  estimatedTime  Int             @default(30)
+  steps          String[]
+  userId         String
+  user           User            @relation(fields: [userId], references: [id])
+  createdAt      DateTime        @default(now())
+  craftMaterials CraftMaterial[]
+  posts          Post[]
+  savedBy        SavedCraft[]
+}
+
+model CraftMaterial {
+  craftId    String
+  materialId String
+  craft      Craft    @relation(fields: [craftId], references: [id])
+  material   Material @relation(fields: [materialId], references: [id])
+
+  @@id([craftId, materialId])
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  imageUrl  String
+  caption   String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  craftId   String
+  craft     Craft    @relation(fields: [craftId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model SavedCraft {
+  userId    String
+  craftId   String
+  user      User     @relation(fields: [userId], references: [id])
+  craft     Craft    @relation(fields: [craftId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([userId, craftId])
+}
+
+model RecycleLog {
+  id        String   @id @default(uuid())
+  userId    String
+  itemId    String
+  user      User     @relation(fields: [userId], references: [id])
+  item      Item     @relation(fields: [itemId], references: [id])
+  createdAt DateTime @default(now())
+}
