@@ -54,6 +54,7 @@ model Craft {
   posts          Post[]
   savedBy        SavedCraft[]
    challengeSubs ChallengeSubmission[] 
+   collectionLinks CollectionCraft[] 
 }
 
 model CraftMaterial {
@@ -131,4 +132,20 @@ model RecyclingCenter {
   address           String
   acceptedMaterials String[]
   createdAt         DateTime @default(now())
+}
+model Collection {
+  id          String            @id @default(uuid())
+  title       String
+  description String?
+  createdAt   DateTime          @default(now())
+  crafts      CollectionCraft[]
+}
+
+model CollectionCraft {
+  collectionId String
+  craftId      String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  craft        Craft      @relation(fields: [craftId], references: [id])
+
+  @@id([collectionId, craftId])
 }

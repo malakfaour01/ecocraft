@@ -241,3 +241,32 @@ export async function createRecyclingCenter(formData: FormData) {
 
   redirect("/recycling");
 }
+
+export async function createCollection(formData: FormData) {
+  const session = await auth();
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const craftIds = formData.getAll("craftIds") as string[];
+
+  const collection = await prisma.collection.create({
+    data: {
+      title,
+      description: description || null,
+    },
+  });
+
+  for (const craftId of craftIds) {
+    await prisma.collectionCraft.create({
+      data: {
+        collectionId: collection.id,
+        craftId,
+      },
+    });
+  }
+
+  redirect(`/collections/${collection.id}`);
+}
