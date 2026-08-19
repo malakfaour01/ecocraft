@@ -165,3 +165,55 @@ export async function claimListing(listingId: string) {
 
   redirect("/marketplace");
 }
+const ADMIN_EMAIL = "malakfaour000@gmail.com";
+
+export async function createChallenge(formData: FormData) {
+  const session = await auth();
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const startDate = formData.get("startDate") as string;
+  const endDate = formData.get("endDate") as string;
+  const isOfficial = session.user.email === ADMIN_EMAIL;
+
+  await prisma.challenge.create({
+    data: {
+      title,
+      description,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      isOfficial,
+    },
+  });
+
+  redirect("/challenges");
+}
+export async function submitToChallenge(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.email) {
+    redirect("/login");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+  if (!user) {
+    redirect("/login");
+  }
+
+  const challengeId = formData.get("challengeId") as string;
+  const craftId = formData.get("craftId") as string;
+
+  await prisma.challengeSubmission.create({
+    data: {
+      challengeId,
+      craftId,
+      userId: user.id,
+    },
+  });
+
+  redirect(`/challenges/${challengeId}`);
+}

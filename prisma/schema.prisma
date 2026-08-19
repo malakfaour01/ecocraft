@@ -19,6 +19,8 @@ model User {
   savedCrafts SavedCraft[]
   recycleLogs RecycleLog[]
   listings    MarketplaceListing[]   
+   challengeSubs ChallengeSubmission[] 
+
 }
 
 model Item {
@@ -51,6 +53,7 @@ model Craft {
   craftMaterials CraftMaterial[]
   posts          Post[]
   savedBy        SavedCraft[]
+   challengeSubs ChallengeSubmission[] 
 }
 
 model CraftMaterial {
@@ -100,4 +103,25 @@ model MarketplaceListing {
   userId      String
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
+}
+model Challenge {
+  id          String                @id @default(uuid())
+  title       String
+  description String
+  isOfficial  Boolean               @default(false)
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime              @default(now())
+  submissions ChallengeSubmission[]
+}
+
+model ChallengeSubmission {
+  id          String    @id @default(uuid())
+  challengeId String
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  craftId     String
+  craft       Craft     @relation(fields: [craftId], references: [id])
+  createdAt   DateTime  @default(now())
 }

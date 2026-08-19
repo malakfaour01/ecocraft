@@ -33,6 +33,10 @@ export default async function RootLayout({
 <Link href="/marketplace" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
   Marketplace
 </Link>
+<Link href="/challenges" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
+  Challenges
+</Link>
+
 
             {session?.user && (
               <Link href="/new-craft" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
