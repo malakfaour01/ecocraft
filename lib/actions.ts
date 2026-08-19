@@ -217,3 +217,27 @@ export async function submitToChallenge(formData: FormData) {
 
   redirect(`/challenges/${challengeId}`);
 }
+export async function createRecyclingCenter(formData: FormData) {
+  const session = await auth();
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  const name = formData.get("name") as string;
+  const address = formData.get("address") as string;
+  const materialsRaw = formData.get("acceptedMaterials") as string;
+  const acceptedMaterials = materialsRaw
+    .split(",")
+    .map((m) => m.trim())
+    .filter((m) => m.length > 0);
+
+  await prisma.recyclingCenter.create({
+    data: {
+      name,
+      address,
+      acceptedMaterials,
+    },
+  });
+
+  redirect("/recycling");
+}

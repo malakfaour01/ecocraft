@@ -125,3 +125,10 @@ model ChallengeSubmission {
   craft       Craft     @relation(fields: [craftId], references: [id])
   createdAt   DateTime  @default(now())
 }
+model RecyclingCenter {
+  id                String   @id @default(uuid())
+  name              String
+  address           String
+  acceptedMaterials String[]
+  createdAt         DateTime @default(now())
+}

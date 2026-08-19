@@ -36,6 +36,9 @@ export default async function RootLayout({
 <Link href="/challenges" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
   Challenges
 </Link>
+<Link href="/recycling" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
+  Recycling
+</Link>
 
 
             {session?.user && (
