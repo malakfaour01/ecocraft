@@ -119,3 +119,49 @@ export async function createPost(formData: FormData) {
 
   redirect("/community");
 }
+export async function createListing(formData: FormData) {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect("/login");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const quantity = Number(formData.get("quantity"));
+
+  await prisma.marketplaceListing.create({
+    data: {
+      title,
+      description: description || null,
+      quantity,
+      userId: user.id,
+    },
+  });
+
+  redirect("/marketplace");
+}
+
+export async function claimListing(listingId: string) {
+  "use server";
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect("/login");
+  }
+
+  await prisma.marketplaceListing.update({
+    where: { id: listingId },
+    data: { status: "claimed" },
+  });
+
+  redirect("/marketplace");
+}

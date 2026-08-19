@@ -29,6 +29,11 @@ export default async function RootLayout({
             <Link href="/community" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
   Community
 </Link>
+
+<Link href="/marketplace" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
+  Marketplace
+</Link>
+
             {session?.user && (
               <Link href="/new-craft" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
                 Add Craft

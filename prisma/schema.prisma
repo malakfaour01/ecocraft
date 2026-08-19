@@ -18,6 +18,7 @@ model User {
   posts       Post[]
   savedCrafts SavedCraft[]
   recycleLogs RecycleLog[]
+  listings    MarketplaceListing[]   
 }
 
 model Item {
@@ -89,4 +90,14 @@ model RecycleLog {
   user      User     @relation(fields: [userId], references: [id])
   item      Item     @relation(fields: [itemId], references: [id])
   createdAt DateTime @default(now())
+}
+model MarketplaceListing {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  quantity    Int      @default(1)
+  status      String   @default("available") // available | claimed
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
 }
