@@ -10,9 +10,17 @@ export default async function CommunityPage() {
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-900 p-8">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">
-          🌍 Community Showcase
-        </h1>
+                <div className="flex items-center justify-between mb-2">
+          <h1 className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+            🌍 Community Showcase
+          </h1>
+          <Link
+            href="/new-post"
+            className="text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md transition"
+          >
+            + Share Post
+          </Link>
+        </div>
         <p className="text-zinc-600 dark:text-zinc-300 mb-8">
           See what others have built
         </p>

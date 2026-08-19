@@ -36,6 +36,11 @@ export async function createCraft(formData: FormData) {
     },
   });
 
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { ecoPoints: { increment: 10 } },
+  });
+
   redirect("/explore");
 }
 
@@ -105,6 +110,11 @@ export async function createPost(formData: FormData) {
       caption: caption || null,
       userId: user.id,
     },
+  });
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { ecoPoints: { increment: 5 } },
   });
 
   redirect("/community");
