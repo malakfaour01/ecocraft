@@ -33,7 +33,12 @@ export default async function ProfilePage() {
           {user.name ?? user.email}&apos;s eco journey so far
         </p>
 
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-4 gap-4 mb-8">
+                    {session?.user && (
+            <p className="text-sm font-mono text-[#C99A3E] mb-4">
+              🔥 Eco-Streak active
+            </p>
+          )}
           <div className="p-5 bg-white dark:bg-[#333730] border border-[#87A08D]/30 text-center">
             <p
               className="text-3xl text-[#C99A3E]"

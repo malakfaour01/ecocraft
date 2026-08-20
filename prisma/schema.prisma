@@ -24,6 +24,8 @@ model User {
   challengeSubs ChallengeSubmission[] 
   followers     Follow[] @relation("Following")
   following     Follow[] @relation("Follower")
+  currentStreak Int       @default(0)
+  lastActiveDate DateTime?
 
 }
 

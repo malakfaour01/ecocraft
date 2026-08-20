@@ -4,6 +4,29 @@ import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
+    if (session?.user?.email) {
+    const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+    if (user) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const last = user.lastActiveDate ? new Date(user.lastActiveDate) : null;
+      if (last) last.setHours(0, 0, 0, 0);
+
+      if (!last || last.getTime() !== today.getTime()) {
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const isConsecutive = last && last.getTime() === yesterday.getTime();
+
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            currentStreak: isConsecutive ? user.currentStreak + 1 : 1,
+            lastActiveDate: today,
+          },
+        });
+      }
+    }
+  }
     const QUOTES = [
     { text: "There is no such thing as \"away.\" When we throw anything away, it must go somewhere.", author: "Annie Leonard" },
     { text: "Recycling a single glass bottle saves enough energy to power a 100W lightbulb for 4 hours.", author: "Fact of the Day" },
@@ -53,6 +76,12 @@ export default async function Home() {
             track the waste you divert.
           </p>
 
+          {session?.user && (
+            <p className="text-sm font-mono text-[#C99A3E] mb-4">
+              🔥 Eco-Streak active
+            </p>
+          )}
+          
           <div className="flex flex-wrap gap-3">
             <Link
               href="/explore"
