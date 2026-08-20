@@ -1,5 +1,23 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const craft = await prisma.craft.findUnique({ where: { id } });
+
+  if (!craft) {
+    return { title: "Craft Not Found | EcoCraft" };
+  }
+
+  return {
+    title: `${craft.title} | EcoCraft`,
+    description: craft.description,
+  };
+}
+
 
 export default async function CraftDetailPage({
   params,

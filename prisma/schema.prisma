@@ -12,6 +12,8 @@ model User {
   password    String
   name        String?
   ecoPoints   Int          @default(0)
+  onboarded     Boolean       @default(false)
+  interests     String[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   crafts      Craft[]

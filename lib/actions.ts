@@ -63,7 +63,7 @@ export async function signUp(
     data: { email, password: hashedPassword, name },
   });
 
-  await signIn("credentials", { email, password, redirectTo: "/explore" });
+  await signIn("credentials", { email, password, redirectTo: "/onboarding" });
 }
 
 export async function authenticate(
@@ -269,4 +269,29 @@ export async function createCollection(formData: FormData) {
   }
 
   redirect(`/collections/${collection.id}`);
+}
+export async function completeOnboarding(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.email) {
+    redirect("/login");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+  if (!user) {
+    redirect("/login");
+  }
+
+  const interests = formData.getAll("interests") as string[];
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      interests,
+      onboarded: true,
+    },
+  });
+
+  redirect("/explore");
 }
