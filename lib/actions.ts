@@ -295,3 +295,48 @@ export async function completeOnboarding(formData: FormData) {
 
   redirect("/explore");
 }
+
+export async function toggleFollow(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.email) {
+    redirect("/login");
+  }
+
+  const currentUser = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+  if (!currentUser) {
+    redirect("/login");
+  }
+
+  const targetUserId = formData.get("targetUserId") as string;
+
+  const existing = await prisma.follow.findUnique({
+    where: {
+      followerId_followingId: {
+        followerId: currentUser.id,
+        followingId: targetUserId,
+      },
+    },
+  });
+
+  if (existing) {
+    await prisma.follow.delete({
+      where: {
+        followerId_followingId: {
+          followerId: currentUser.id,
+          followingId: targetUserId,
+        },
+      },
+    });
+  } else {
+    await prisma.follow.create({
+      data: {
+        followerId: currentUser.id,
+        followingId: targetUserId,
+      },
+    });
+  }
+
+  redirect(`/maker/${targetUserId}`);
+}

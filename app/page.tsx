@@ -4,6 +4,15 @@ import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
+    const QUOTES = [
+    { text: "There is no such thing as \"away.\" When we throw anything away, it must go somewhere.", author: "Annie Leonard" },
+    { text: "Recycling a single glass bottle saves enough energy to power a 100W lightbulb for 4 hours.", author: "Fact of the Day" },
+    { text: "Upcycling aluminum saves 95% of the energy needed to create new aluminum from raw ore.", author: "Fact of the Day" },
+    { text: "Over 85% of textiles end up in landfills annually — upcycling fabric scraps preserves water and prevents methane emissions.", author: "Fact of the Day" },
+    { text: "Recycling one ton of paper saves 17 trees, 7,000 gallons of water, and 1,500 lbs of CO2.", author: "Fact of the Day" },
+  ];
+  const dayIndex = new Date().getDate() % QUOTES.length;
+  const todaysQuote = QUOTES[dayIndex];
   const [craftCount, userCount, postCount, featuredCrafts] = await Promise.all([
     prisma.craft.count(),
     prisma.user.count(),
@@ -90,6 +99,19 @@ export default async function Home() {
               Yesterday&apos;s yogurt tub is today&apos;s seed starter.
             </p>
           </div>
+        </div>
+      </section>
+
+            {/* DAILY QUOTE */}
+      <section className="max-w-5xl mx-auto px-6 pb-12">
+        <div className="bg-white dark:bg-[#333730] border-l-4 border-[#C99A3E] p-5">
+          <p className="text-xs font-mono uppercase tracking-wide text-[#87A08D] mb-2">
+            Today&apos;s Eco-Byte
+          </p>
+          <p className="text-[#3D5A45] dark:text-[#E8E4D8]" style={{ fontFamily: "var(--font-display)", fontWeight: 600 }}>
+            &ldquo;{todaysQuote.text}&rdquo;
+          </p>
+          <p className="text-sm text-[#87A08D] mt-2">— {todaysQuote.author}</p>
         </div>
       </section>
 

@@ -29,8 +29,10 @@ export default async function RootLayout({
     <Link href="/challenges" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Challenges</Link>
     <Link href="/recycling" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Recycling</Link>
     <Link href="/collections" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Collections</Link>
+    <Link href="/calculator" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Calculator</Link>
     {session?.user && <Link href="/new-craft" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Add Craft</Link>}
     {session?.user && <Link href="/profile" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Profile</Link>}
+
   </div>
   <div className="flex items-center gap-4">
     {session?.user ? (
