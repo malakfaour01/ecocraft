@@ -2,52 +2,25 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { completeOnboarding } from "@/lib/actions";
 
-const MATERIAL_OPTIONS = [
-  "Plastic",
-  "Glass",
-  "Cardboard",
-  "Fabric",
-  "Metal",
-  "Paper",
-  "Wood",
-];
+const MATERIAL_OPTIONS = ["Plastic", "Glass", "Cardboard", "Fabric", "Metal", "Paper", "Wood"];
 
 export default async function OnboardingPage() {
   const session = await auth();
-  if (!session?.user) {
-    redirect("/login");
-  }
-
+  if (!session?.user) redirect("/login");
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center p-8">
-      <div className="max-w-md w-full bg-white dark:bg-zinc-800 p-6 rounded-xl border border-zinc-200 dark:border-zinc-700">
-        <h1 className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">
-          Welcome to EcoCraft! 🌱
-        </h1>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
-          What materials do you usually have lying around? We&apos;ll use this to
-          personalize your experience.
-        </p>
-
+    <main className="min-h-screen bg-[#F4F1E8] dark:bg-[#2B2E28] flex items-center justify-center p-8">
+      <div className="max-w-md w-full bg-white dark:bg-[#333730] p-6 border border-[#87A08D]/30">
+        <h1 className="text-2xl text-[#3D5A45] dark:text-[#E8E4D8] mb-2" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>Welcome to EcoCraft! 🌱</h1>
+        <p className="text-sm text-[#4A4238] dark:text-[#C9C5B8] mb-6">What materials do you usually have lying around?</p>
         <form action={completeOnboarding} className="space-y-4">
           <div className="grid grid-cols-2 gap-2">
-            {MATERIAL_OPTIONS.map((material) => (
-              <label
-                key={material}
-                className="flex items-center gap-2 text-sm p-2 border border-zinc-200 dark:border-zinc-600 rounded-md cursor-pointer hover:border-emerald-400"
-              >
-                <input type="checkbox" name="interests" value={material} />
-                {material}
+            {MATERIAL_OPTIONS.map((m) => (
+              <label key={m} className="flex items-center gap-2 text-sm p-2 border border-[#87A08D]/30 rounded-md cursor-pointer hover:border-[#C99A3E]">
+                <input type="checkbox" name="interests" value={m} /> {m}
               </label>
             ))}
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-md transition"
-          >
-            Get Started
-          </button>
+          <button type="submit" className="w-full bg-[#C99A3E] hover:bg-[#B3862F] text-white font-medium py-2 rounded-md transition">Get Started</button>
         </form>
       </div>
     </main>

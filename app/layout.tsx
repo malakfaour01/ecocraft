@@ -17,76 +17,43 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="antialiased">
-        <nav className="bg-white dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="font-bold text-emerald-600 dark:text-emerald-400">
-              🌱 EcoCraft
-            </Link>
-            <Link href="/explore" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-              Explore
-            </Link>
-            <Link href="/community" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-  Community
-</Link>
-
-<Link href="/marketplace" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-  Marketplace
-</Link>
-<Link href="/challenges" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-  Challenges
-</Link>
-<Link href="/recycling" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-  Recycling
-</Link>
-<Link href="/collections" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-  Collections
-</Link>
-
-
-            {session?.user && (
-              <Link href="/new-craft" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-                Add Craft
-              </Link>
-            )}
-
-            {session?.user && (
-  <Link href="/profile" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-    Profile
-  </Link>
-)}
-
-          </div>
-
-          <div className="flex items-center gap-4">
-            {session?.user ? (
-              <form
-                action={async () => {
-                  "use server";
-                  await signOut({ redirectTo: "/" });
-                }}
-              >
-                <button className="text-sm text-zinc-500 hover:text-red-500 underline">
-                  Log out
-                </button>
-              </form>
-            ) : (
-              <>
-                <Link href="/login" className="text-sm text-zinc-600 dark:text-zinc-300 hover:text-emerald-600">
-                  Log in
-                </Link>
-                <Link
-                  href="/signup"
-                  className="text-sm bg-emerald-600 text-white px-3 py-1.5 rounded-md hover:bg-emerald-700"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div>
-        </nav>
+      <body className={`antialiased ${fraunces.variable}`}>
+        <nav className="bg-[#F4F1E8] dark:bg-[#2B2E28] border-b-2 border-[#87A08D]/40 px-6 py-3 flex items-center justify-between">
+  <div className="flex items-center gap-6 flex-wrap">
+    <Link href="/" className="text-lg text-[#3D5A45] dark:text-[#E8E4D8]" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
+      🌱 EcoCraft
+    </Link>
+    <Link href="/explore" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Explore</Link>
+    <Link href="/community" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Community</Link>
+    <Link href="/marketplace" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Marketplace</Link>
+    <Link href="/challenges" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Challenges</Link>
+    <Link href="/recycling" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Recycling</Link>
+    <Link href="/collections" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Collections</Link>
+    {session?.user && <Link href="/new-craft" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Add Craft</Link>}
+    {session?.user && <Link href="/profile" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Profile</Link>}
+  </div>
+  <div className="flex items-center gap-4">
+    {session?.user ? (
+      <form action={async () => { "use server"; await signOut({ redirectTo: "/" }); }}>
+        <button className="text-sm text-[#4A4238] dark:text-[#C9C5B8] hover:text-red-600 underline">Log out</button>
+      </form>
+    ) : (
+      <>
+        <Link href="/login" className="text-sm text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#3D5A45]">Log in</Link>
+        <Link href="/signup" className="text-sm bg-[#C99A3E] text-white px-3 py-1.5 rounded-md hover:bg-[#B3862F]">Sign Up</Link>
+      </>
+    )}
+  </div>
+</nav>
         {children}
       </body>
     </html>
   );
 }
+import { Fraunces } from "next/font/google";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["600", "700"],
+});
