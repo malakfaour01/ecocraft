@@ -39,6 +39,7 @@ export default async function RootLayout({
             <Link href="/calculator" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Calculator</Link>
             <Link href="/guides" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Guides</Link>
            <Link href="/feedback" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Feedback</Link>
+           <Link href="/quiz" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Quiz</Link>
             {session?.user && <Link href="/new-craft" className="text-sm font-mono text-[#4A4238] dark:text-[#C9C5B8] hover:text-[#C99A3E]">Add Craft</Link>}
           </div>
 

@@ -413,3 +413,15 @@ export async function toggleFeedbackVote(formData: FormData) {
 
   redirect("/feedback");
 }
+export async function submitQuizScore(score: number) {
+  const session = await auth();
+  if (!session?.user?.email) return;
+
+  const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+  if (!user) return;
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { ecoPoints: { increment: score * 2 } },
+  });
+}
