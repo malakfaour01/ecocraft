@@ -24,6 +24,8 @@ model User {
   challengeSubs ChallengeSubmission[] 
   followers     Follow[] @relation("Following")
   following     Follow[] @relation("Follower")
+  feedbacks     Feedback[]
+  feedbackVotes FeedbackVote[]
   currentStreak Int       @default(0)
   lastActiveDate DateTime?
 
@@ -163,4 +165,25 @@ model Follow {
   createdAt   DateTime @default(now())
 
   @@id([followerId, followingId])
+}
+model Feedback {
+  id          String         @id @default(uuid())
+  title       String
+  description String
+  type        String         @default("feature") // feature | bug
+  status      String         @default("open")    // open | planned | done
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
+  createdAt   DateTime       @default(now())
+  votes       FeedbackVote[]
+}
+
+model FeedbackVote {
+  userId     String
+  feedbackId String
+  user       User     @relation(fields: [userId], references: [id])
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@id([userId, feedbackId])
 }

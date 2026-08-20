@@ -340,3 +340,76 @@ export async function toggleFollow(formData: FormData) {
 
   redirect(`/maker/${targetUserId}`);
 }
+export async function submitFeedback(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.email) {
+    redirect("/login");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+  if (!user) {
+    redirect("/login");
+  }
+
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const type = formData.get("type") as string;
+
+  await prisma.feedback.create({
+    data: {
+      title,
+      description,
+      type,
+      userId: user.id,
+    },
+  });
+
+  redirect("/feedback");
+}
+
+export async function toggleFeedbackVote(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.email) {
+    redirect("/login");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+  if (!user) {
+    redirect("/login");
+  }
+
+  const feedbackId = formData.get("feedbackId") as string;
+
+  const existing = await prisma.feedbackVote.findUnique({
+    where: {
+      userId_feedbackId: {
+        userId: user.id,
+        feedbackId,
+      },
+    },
+  });
+
+  if (existing) {
+    await prisma.feedbackVote.delete({
+      where: {
+        userId_feedbackId: {
+          userId: user.id,
+          feedbackId,
+        },
+      },
+    });
+  } else {
+    await prisma.feedbackVote.create({
+      data: {
+        userId: user.id,
+        feedbackId,
+      },
+    });
+  }
+
+  redirect("/feedback");
+}
