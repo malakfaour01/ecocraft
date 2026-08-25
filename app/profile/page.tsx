@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -32,6 +33,12 @@ export default async function ProfilePage() {
         <p className="text-[#4A4238] dark:text-[#C9C5B8] mb-8">
           {user.name ?? user.email}&apos;s eco journey so far
         </p>
+                <Link
+          href="/certificate"
+          className="inline-block text-sm bg-[#C99A3E] hover:bg-[#B3862F] text-white px-4 py-2 rounded-md transition mb-6"
+        >
+          🏅 View My Certificate
+        </Link>
 
         <div className="grid grid-cols-4 gap-4 mb-8">
                     {session?.user && (
