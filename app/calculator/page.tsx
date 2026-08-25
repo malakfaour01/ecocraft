@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const MATERIALS = [
-  { key: "plastic", label: "Plastic Bottles (PET)", co2PerUnit: 0.075, unit: "bottle (~50g)" },
+  { key: "plastic", label: "Plastic Bottles (PET)", co2PerUnit: 0.15, unit: "bottle (~50g)" },
   { key: "glass", label: "Glass Jars", co2PerUnit: 0.15, unit: "jar (~500g)" },
   { key: "aluminum", label: "Aluminum Cans", co2PerUnit: 0.135, unit: "can (~15g)" },
   { key: "textiles", label: "Textile Items", co2PerUnit: 0.72, unit: "item (~200g)" },
@@ -45,13 +45,14 @@ export default function CalculatorPage() {
               <input
                 type="number"
                 min={0}
-                value={counts[material.key] || ""}
-                onChange={(e) =>
+                value={counts[material.key] ?? ""}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value, 10);
                   setCounts({
                     ...counts,
-                    [material.key]: Math.max(0, Number(e.target.value)),
-                  })
-                }
+                    [material.key]: isNaN(val) ? 0 : Math.max(0, val),
+                  });
+                }}
                 className="w-20 p-2 border border-[#87A08D]/40 dark:bg-[#3D423A] dark:text-[#E8E4D8] text-center"
                 placeholder="0"
               />
